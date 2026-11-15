@@ -51,7 +51,7 @@ Settings are constants at the top of each file.
 
 | Setting | File | Default | Notes |
 |---------|------|---------|-------|
-| `CHANNEL` | both | `1` | Must match on both boards |
+| `CHANNEL` | both | `1` | Must match on both boards. See [Wi-Fi channels](#wi-fi-channels) |
 | `TXPOWER` | both | `2` | dBm, roughly 2-20 on ESP32. On RX it only matters for ACKs in unicast mode |
 | `PEER` | TX | broadcast | Set to the receiver's MAC for unicast with ACKs and retries |
 | `SIZES` | TX | `[250]` | Payload sizes in bytes, 16 up to `espnow.MAX_DATA_LEN` (250 on ESP-NOW v1, 1470 on v2) |
@@ -63,6 +63,43 @@ Settings are constants at the top of each file.
 | `RXBUF` | RX | `8192` | Receive ring buffer in bytes; must hold several of the largest frames |
 
 PHY rate codes are values of ESP-IDF's `wifi_phy_rate_t`: `0` = 1 Mbps, `1` = 2 Mbps, `3` = 11 Mbps, `0x0B` = 6 Mbps (OFDM), `0x10` = MCS0. The MicroPython setting is write-only, so nothing can read the rate back: the `rate` shown by RX is the code TX **asked for**, and you only see whether it took effect from the throughput.
+
+### Wi-Fi channels
+
+`CHANNEL` takes a Wi-Fi channel number, and both boards must use the same one. Most ESP32-family boards (ESP32, S2, S3, C3, ...) are 2.4 GHz only, so they use channels 1-13 (the default is channel 1). The 5 GHz channels apply only to dual-band chips such as the ESP32-C5. Which channels are allowed also depends on your country's regulations.
+
+**2.4 GHz**
+
+| Ch. | Frequency |
+|----:|----------:|
+| 1 | 2412 MHz |
+| 2 | 2417 MHz |
+| 3 | 2422 MHz |
+| 4 | 2427 MHz |
+| 5 | 2432 MHz |
+| 6 | 2437 MHz |
+| 7 | 2442 MHz |
+| 8 | 2447 MHz |
+| 9 | 2452 MHz |
+| 10 | 2457 MHz |
+| 11 | 2462 MHz |
+| 12 | 2467 MHz |
+| 13 | 2472 MHz |
+
+**5 GHz**
+
+| Ch. | Frequency | | Ch. | Frequency | | Ch. | Frequency |
+|----:|----------:|-|----:|----------:|-|----:|----------:|
+| 36 | 5180 MHz | | 100 | 5500 MHz | | 149 | 5745 MHz |
+| 40 | 5200 MHz | | 104 | 5520 MHz | | 153 | 5765 MHz |
+| 44 | 5220 MHz | | 108 | 5540 MHz | | 157 | 5785 MHz |
+| 48 | 5240 MHz | | 112 | 5560 MHz | | 161 | 5805 MHz |
+| 52 | 5260 MHz | | 116 | 5580 MHz | | 165 | 5825 MHz |
+| 56 | 5280 MHz | | 120 | 5600 MHz | | | |
+| 60 | 5300 MHz | | 124 | 5620 MHz | | | |
+| 64 | 5320 MHz | | 128 | 5640 MHz | | | |
+| 132 | 5660 MHz | | 136 | 5680 MHz | | | |
+| 140 | 5700 MHz | | 144 | 5720 MHz | | | |
 
 ## Output
 
